@@ -15,6 +15,4 @@ class TrainableModel:
             last_derivative = derivative(theta)
             iteration -= 1
 
-        self.predict = lambda inp: sum(x * t for x, t in zip([1] + inp, theta))
-
         return theta

@@ -1,5 +1,29 @@
 import matplotlib.pyplot as plt
+import numpy as np
+import example_data
 from pylearn import linear_model
+
+
+# Logistic regression example
+X = example_data.lr_X
+y = example_data.lr_y
+lr = linear_model.LogisticRegression()
+lr.max_iterations = 1500
+lr.learning_rate = 0.01
+params = lr.fit(X, y)
+print('params =', params)
+
+colormap = np.array(['g', 'b', 'y'])
+for i, row in enumerate(X):
+    plt.scatter(row[0], row[1], s=50, c=colormap[y[i]])
+
+x_units = list(np.arange(30, 110, 5))
+y_units = [i for z in [[i] * len(x_units) for i in x_units] for i in z]
+grid = [[x, y] for x, y in zip(x_units * len(x_units), y_units)]
+
+for x, y in grid:
+    plt.scatter(x, y, marker='x', s=30,
+                c=colormap[1 if lr.predict([x, y]) > 0.5 else 0])
 
 
 # Linear regression example
