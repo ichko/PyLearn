@@ -5,9 +5,12 @@ from .trainable_model import TrainableModel
 
 class LinearRegression(TrainableModel):
 
+    def hypothesys(self, X, theta):
+        return X.dot(theta)
+
     def fit(self, X, y):
         X, y = InputData.normalize(X, y)
-        cost, derivative = rss(X, y, self.regularization_term)
+        cost, derivative = rss(X, y, self.hypothesys, self.regularization_term)
         theta = InitialParameters.ones(len(X[0]))
         return self.train(derivative, theta)
 
