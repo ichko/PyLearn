@@ -2,7 +2,7 @@ def rss_cost(X, y, reg_term):
     training_set_size = len(y)
 
     def cost_function(theta):
-        hypothesis = X.dot(theta)
+        hypothesis = X.transpose().dot(theta)
         reg_sum = reg_term * sum(theta[1:] ** 2)
         result = (sum((hypothesis - y) ** 2) + reg_sum)
         return result / (2 * training_set_size)
