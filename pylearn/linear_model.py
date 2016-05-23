@@ -1,18 +1,22 @@
-import numpy as np
-from .initial_parameters import ones
-from .cost import rss_gradient
+from .preprocess import InputData, InitialParameters
+from .cost import rss
+from .trainable_model import TrainableModel
 
 
-class LinearRegression:
-
-    def __init__(self):
-        self.learning_rate = 0.01
-        self.regularization_param = 2
+class LinearRegression(TrainableModel):
 
     def fit(self, X, y):
-        X, y = np.array(X), np.array(y)
-        training_set_size = len(y)
-        theta = ones(training_set_size)
-        gradient = rss_gradient(X, y, theta, self.regularization_param)
+        X, y = InputData.normalize(X, y)
+        cost, derivative = rss(X, y, self.regularization_term)
+        theta = InitialParameters.ones(len(y))
+        return self.train(derivative, theta)
 
-        return gradient
+    def train(self, derivative, theta):
+        last_derivative = derivative(theta)
+        iteration = self.max_iterations
+        while iteration and sum(last_derivative) < self.derivative_threshold:
+            last_derivative = derivative(theta)
+            theta = theta - self.learning_rate * last_derivative
+            iteration -= 1
+
+        return theta
