@@ -32,9 +32,6 @@ class LogisticRegression(TrainableModel):
         cost, derivative = rss(X, y, self.hypothesis, self.regularization_term)
         theta = InitialParameters.ones(len(X[0]))
         theta = self.train(derivative, theta)
+        self.predict = lambda inp: sum(x * t for x, t in zip([1] + inp, theta))
 
-        def predict(inp):
-            return self.hypothesis(np.array([1] + inp), theta)
-
-        self.predict = predict
         return theta
