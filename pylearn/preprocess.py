@@ -16,9 +16,9 @@ class FeatureScaling:
 
     @staticmethod
     def get_mean_normalize(x):
-        average = np.average(x)
-        print(average)
-        max = np.amax(x)
+        x = np.array(x)
+        average = np.array([np.average(row) for row in x.transpose()])
+        max = np.array([np.amax(row) for row in x.transpose()])
 
         def normalize(x):
             return (x - average) / max
