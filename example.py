@@ -8,8 +8,8 @@ from pylearn import linear_model
 X = [[r / 100 for r in x] for x in example_data.lr_X]
 y = example_data.lr_y
 lr = linear_model.LogisticRegression()
-lr.max_iterations = 15000
-lr.learning_rate = 0.1
+lr.max_iterations = 400
+lr.learning_rate = 10
 params = lr.fit(X, y)
 print('params =', params)
 
@@ -23,10 +23,12 @@ grid = [[x, y] for x, y in zip(x_units * len(x_units), y_units)]
 
 for x, y in grid:
     pred = lr.predict([x / 100, y / 100])
-    print(pred)
-    plt.scatter(x, y, marker='x', s=30,
-                c=colormap[1 if pred > 0 else 0])
+    # plt.scatter(x, y, marker='x', s=30,
+    #            c=colormap[1 if pred > 0 else 0])
 
+a = -params[1] / params[2]
+d = -params[0] / params[2]
+plt.plot([30, 100], [(a * 0.3 + d)*100, (a + d)*100])
 
 # Linear regression example
 X = [[i] for i in [-15.9368, -29.1530,  36.1895, 37.4922,
