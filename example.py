@@ -33,14 +33,15 @@ plt.plot(example_data.X_re, example_data.y_re, 'ro')
 plt.show()
 '''
 
-example_data.X_re = [[x[0] + 100] for x in example_data.X_re]
+example_data.X_re = [[-x[0] - 100] for x in example_data.X_re]
+example_data.y_re = [y - 100 for y in example_data.y_re]
 
 # Polynomial regression example
-mapper = [lambda x: x ** 4 + 2 * x]
+mapper = [lambda x: x ** 4]
 lr = high_order_model.PolynomialRegression()
 predict = lr.fit(example_data.X_re, example_data.y_re, mapper)
 
-test_data = list(np.arange(50, 150, 5))
+test_data = list(np.arange(-150, -50, 5))
 test_results = [predict([x]) for x in test_data]
 
 plt.plot(test_data, test_results)
