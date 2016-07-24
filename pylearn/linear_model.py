@@ -14,7 +14,7 @@ class LogisticRegression(TrainableModel):
 
     def __init__(self, *args):
         super().__init__(*args)
-        self.boundary_threshold = 0.5
+        self.boundary_threshold = 0
 
     def sigmoid(self, x):
         return np.vectorize(lambda x: 1 / (1 + exp(-x)))(x)
@@ -24,4 +24,5 @@ class LogisticRegression(TrainableModel):
 
     def fit(self, *args):
         predict = super(LogisticRegression, self).fit(*args)
+        self.unthresholded = predict
         return lambda inp: 1 if predict(inp) > 0 else 0

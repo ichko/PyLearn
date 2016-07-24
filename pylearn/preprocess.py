@@ -15,16 +15,16 @@ class FeatureScaling:
         return x / np.amax(x)
 
     @staticmethod
-    def get_mean_normalize(x):
-        x = np.array(x)
-        average = np.array([np.average(row) for row in x.transpose()])
-        max = np.array([np.amax(row) for row in x.transpose()])
+    def get_mean_normalize(X):
+        X = np.array(X).transpose()
+        average = np.array([np.average(row) for row in X])
+        max = np.array([np.amax(row) for row in X])
 
         def normalize(x):
-            return (x - average) / max
+            return (np.array(x) - average) / max
 
         def reverse_normalize(x):
-            return x * max + average
+            return np.array(x) * max + average
 
         return normalize, reverse_normalize
 
