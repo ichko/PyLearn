@@ -1,51 +1,48 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import example_data
-from pylearn import linear_model
+from pylearn import high_order_model, linear_model
 
-
+'''
 # Logistic regression example
-X = [[r for r in x] for x in example_data.lr_X]
-y = example_data.lr_y
 lr = linear_model.LogisticRegression()
-lr.max_iterations = 1000
-lr.learning_rate = 1
-params, normalize, reverse = lr.fit(X, y)
-print('params =', params)
+predict = lr.fit(example_data.X_lo, example_data.y_lo)
 
 colormap = np.array(['g', 'b', 'y'])
-for i, row in enumerate(example_data.lr_X):
-    plt.scatter(row[0], row[1], s=50, c=colormap[y[i]])
-
 x_units = list(np.arange(30, 110, 5))
 y_units = [i for z in [[i] * len(x_units) for i in x_units] for i in z]
 grid = [[x, y] for x, y in zip(x_units * len(x_units), y_units)]
 
 for x, y in grid:
-    pred = lr.predict([x, y])
-    # plt.scatter(x, y, marker='x', s=30,
-    #            c=colormap[1 if pred > 0 else 0])
+    plt.scatter(x, y, marker='x', s=30, c=colormap[predict([x, y])])
 
-a = -params[1] / params[2]
-d = -params[0] / params[2]
-normal_data = normalize([30, 100])
-plt.plot([30, 100], [reverse(a * normal_data[0] + d)[0],
-                     reverse(a * normal_data[1] + d)[0]])
+for i, row in enumerate(example_data.X_lo):
+    plt.scatter(row[0], row[1], s=50, c=colormap[example_data.y_lo[i]])
+
+plt.show()
 
 # Linear regression example
-X = [[i] for i in [-15.9368, -29.1530,  36.1895, 37.4922,
-     -48.0588, -8.9415, 15.3078, -34.7063, 1.3892,
-     -44.3838, 7.0135, 22.7627]]
-y = [2.1343, 1.1733, 34.3591, 36.8380, 2.8090, 2.1211, 14.7103,
-     2.6142, 3.7402, 3.7317, 7.6277, 22.7524]
-
 lr = linear_model.LinearRegression()
-lr.max_iterations = 1500
-lr.learning_rate = 0.002
-params = lr.fit(X, y)
-print('params =', params)
+predict = lr.fit(example_data.X_re, example_data.y_re)
 
-new_data = [-50, 40]
-plt.plot(new_data, [lr.predict([x]) for x in new_data])
-plt.plot(X, y, 'ro')
+test_data = [-100, 100]
+test_results = [predict([x]) for x in test_data]
+
+plt.plot(test_data, test_results)
+plt.plot(example_data.X_re, example_data.y_re, 'ro')
+plt.show()
+'''
+
+example_data.X_re = [[x[0] + 100] for x in example_data.X_re]
+
+# Polynomial regression example
+mapper = [lambda x: x ** 4 + 2 * x]
+lr = high_order_model.PolynomialRegression()
+predict = lr.fit(example_data.X_re, example_data.y_re, mapper)
+
+test_data = list(np.arange(50, 150, 5))
+test_results = [predict([x]) for x in test_data]
+
+plt.plot(test_data, test_results)
+plt.plot(example_data.X_re, example_data.y_re, 'ro')
 plt.show()

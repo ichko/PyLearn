@@ -33,7 +33,7 @@ class InputData:
 
     @staticmethod
     def add_constant_term(X, term=1):
-        return [[term] + list(row) for row in X]
+        return np.array([[term] + list(row) for row in X])
 
     @classmethod
     def normalize(cls, X, y):
