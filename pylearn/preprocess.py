@@ -1,4 +1,5 @@
 import numpy as np
+import random as rnd
 
 
 class InitialParameters:
@@ -6,6 +7,10 @@ class InitialParameters:
     @staticmethod
     def ones(size):
         return np.array([1] * size)
+
+    @staticmethod
+    def random(size, min=0, max=1):
+        return np.array([rnd.random() * (max - min) + min for _ in range(size)])
 
 
 class FeatureScaling:

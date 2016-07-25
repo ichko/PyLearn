@@ -12,13 +12,14 @@ class TrainableModel:
         self.theta = []
         self.feature_scale = lambda _: 1
         self.reverse_feature_scale = lambda _: 1
+        self.error_log = []
 
     def fit(self, X, y):
         mean, reversed_mean = FeatureScaling.get_mean_normalize(X)
         X, y = InputData.normalize(mean(X), y)
 
         cost, derivative = rss(X, y, self.hypothesis, self.regularization_term)
-        theta = InitialParameters.ones(len(X[0]))
+        theta = InitialParameters.random(len(X[0]))
         theta = self.train(derivative, theta)
         self.theta = theta
         self.feature_scale = mean
@@ -33,10 +34,13 @@ class TrainableModel:
     def train(self, derivative, theta):
         last_derivative = derivative(theta)
         iteration = self.max_iterations
-        while iteration and sum(map(
-                abs, last_derivative)) > self.train_threshold:
+        current_error = sum(map(abs, last_derivative))
+        while iteration and current_error > self.train_threshold:
             theta = theta - self.learning_rate * last_derivative
             last_derivative = derivative(theta)
+            current_error = sum(map(abs, last_derivative))
+
+            self.error_log.append(current_error)
             iteration -= 1
 
         return theta
