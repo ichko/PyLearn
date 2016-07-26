@@ -6,9 +6,27 @@ from pylearn import high_order_model, linear_model
 
 
 # Logistic regression example
-mapper = [lambda x, _: x[0] * x[1], lambda x, i: 1]
+mapper = [lambda x, i: 1,
+          lambda x, i: x[0],
+          lambda x, i: x[1],
+          lambda x, i: x[1] ** 2,
+          lambda x, i: x[1] * x[0],
+          lambda x, i: x[1] ** 2,
+          lambda x, i: x[0] ** 3,
+          lambda x, i: x[1] ** 3,
+          lambda x, i: x[0] ** 2 * x[1],
+          lambda x, i: x[0] * x[1] ** 2,
+          lambda x, i: x[0] ** 4,
+          lambda x, i: x[1] ** 4,
+          lambda x, i: x[1] ** 2 * x[0] ** 2,
+          lambda x, i: x[1] ** 3 * x[0],
+          lambda x, i: x[1] * x[0] ** 3,
+          lambda x, i: x[0] ** 2 * x[1] ** 3,
+          lambda x, i: x[0] ** 3 * x[1] ** 2]
+
 lr = high_order_model.PolynomialLogisticRegression()
-lr.learning_rate = 0.5
+lr.learning_rate = 1
+lr.max_iterations = 3000
 predict = lr.fit(example_data.X_lo, example_data.y_lo, mapper)
 
 x = y = np.arange(30, 110, 5)
@@ -23,7 +41,8 @@ colormap = np.array(['cyan', 'red'])
 for i, row in enumerate(example_data.X_lo):
     plt.scatter(row[0], row[1], s=50, c=colormap[example_data.y_lo[i]])
 
-plt.plot([i / 20 for i in range(len(lr.error_log))], [i * 500 for i in lr.error_log])
+plt.plot([i / 20 for i in range(len(lr.error_log))],
+         [i * 500 for i in lr.error_log])
 
 plt.show()
 
@@ -46,7 +65,8 @@ example_data.y_re = [y - 100 for y in example_data.y_re]
 
 # Polynomial regression example
 lr = high_order_model.PolynomialRegression()
-predict = lr.fit(example_data.X_re, example_data.y_re, [lambda x, _: x[0] ** 4])
+predict = lr.fit(example_data.X_re,
+                 example_data.y_re, [lambda x, _: x[0] ** 4])
 
 test_data = list(np.arange(-150, -50, 5))
 test_results = [predict([x]) for x in test_data]
