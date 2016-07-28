@@ -1,4 +1,4 @@
-#PyLearn - Machine Larning Library
+#PyLearn - Machine Learning Library
 Python library implementing machine learning algorithms.
 
 ##Backlog
@@ -7,7 +7,7 @@ Python library implementing machine learning algorithms.
  - Support vector machine
  - Decision trees (nice to have)
  - Neural Network (nice to have)
- - Random forrest (nice to have)
+ - Random forest (nice to have)
  - Feature scaling (module for preprocessing)
  - Choosing a learning rate (nice to have)
  - Module for visualizing the data (nice to have)

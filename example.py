@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 import example_data
-from pylearn import high_order_model, linear_model
+from pylearn import high_order_model
 
 
 # Logistic regression example
@@ -26,7 +26,7 @@ mapper = [lambda x, i: 1,
 
 lr = high_order_model.PolynomialLogisticRegression()
 lr.learning_rate = 1
-lr.max_iterations = 3000
+lr.max_iterations = 800
 predict = lr.fit(example_data.X_lo, example_data.y_lo, mapper)
 
 x = y = np.arange(30, 110, 5)
