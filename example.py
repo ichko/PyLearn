@@ -1,48 +1,37 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 
-import example_data
 from pylearn import high_order_model
+from pylearn.data_loader import parse_data
+from pylearn.space_transform import full_polynomial_mapper
 
 
 # Logistic regression example
-mapper = [lambda x, i: 1,
-          lambda x, i: x[0],
-          lambda x, i: x[1],
-          lambda x, i: x[1] ** 2,
-          lambda x, i: x[1] * x[0],
-          lambda x, i: x[1] ** 2,
-          lambda x, i: x[0] ** 3,
-          lambda x, i: x[1] ** 3,
-          lambda x, i: x[0] ** 2 * x[1],
-          lambda x, i: x[0] * x[1] ** 2,
-          lambda x, i: x[0] ** 4,
-          lambda x, i: x[1] ** 4,
-          lambda x, i: x[1] ** 2 * x[0] ** 2,
-          lambda x, i: x[1] ** 3 * x[0],
-          lambda x, i: x[1] * x[0] ** 3,
-          lambda x, i: x[0] ** 2 * x[1] ** 3,
-          lambda x, i: x[0] ** 3 * x[1] ** 2]
-
 lr = high_order_model.PolynomialLogisticRegression()
-lr.learning_rate = 1
+lr.learning_rate = 50
 lr.max_iterations = 800
-predict = lr.fit(example_data.X_lo, example_data.y_lo, mapper)
 
-x = y = np.arange(30, 110, 5)
+X_lo, y_lo = parse_data('example_data/data2.txt')
+y_lo = [int(y) for y in y_lo]
+
+mapper = full_polynomial_mapper(12, 2)
+predict = lr.fit(X_lo, y_lo, mapper)
+
+x = y = np.arange(-1.5, 1.5, 0.08)
 X, Y = np.meshgrid(x, y)
 Z = [list(zip(rowX, rowY)) for rowX, rowY in zip(X, Y)]
 Z = [[lr.unthresholded(list(data)) for data in row] for row in Z]
 
-levels = [-5, -0.05, 0, 0.015, 5]
+levels = [-5000, -0.05, 0, 0.015, 5000]
 plt.contourf(X, Y, Z, cmap=plt.cm.winter, levels=levels)
 
 colormap = np.array(['cyan', 'red'])
-for i, row in enumerate(example_data.X_lo):
-    plt.scatter(row[0], row[1], s=50, c=colormap[example_data.y_lo[i]])
+for i, row in enumerate(X_lo):
+    plt.scatter(row[0], row[1], s=50, c=colormap[y_lo[i]])
 
-plt.plot([i / 20 for i in range(len(lr.error_log))],
-         [i * 500 for i in lr.error_log])
+# plt.plot([i / 20 for i in range(len(lr.error_log))],
+#         [i * 500 for i in lr.error_log])
 
 plt.show()
 

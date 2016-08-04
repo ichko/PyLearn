@@ -10,7 +10,8 @@ class InitialParameters:
 
     @staticmethod
     def random(size, min=0, max=1):
-        return np.array([rnd.random() * (max - min) + min for _ in range(size)])
+        return np.array([rnd.random() * (max - min) + min
+                         for _ in range(size)])
 
 
 class FeatureScaling:
