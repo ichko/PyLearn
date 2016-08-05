@@ -32,6 +32,7 @@ class TrainableModel:
 
     # Gradient descent
     def train(self, derivative, theta):
+        self.error_log = []
         last_derivative = derivative(theta)
         iteration = self.max_iterations
         current_error = sum(map(abs, last_derivative))
