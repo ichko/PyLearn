@@ -1,5 +1,12 @@
 {
     "python.linting.enabled": true,
     "python.linting.pep8Enabled": true,
-    "python.linting.lintOnTextChange": true
+    "python.linting.lintOnTextChange": true,
+
+    "files.exclude": {
+        "LICENSE": true,
+        ".git*": true,
+        "*/__*__": true,
+        "__*__": true
+    }
 }
