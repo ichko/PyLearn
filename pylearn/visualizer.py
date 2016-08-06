@@ -8,13 +8,9 @@ def quit_figure(event):
 
 
 def plot_2d_classifier_stats(model, X_data, y_data, dim_id_1=0, dim_id_2=1,):
-    f_manager = plt.get_current_fig_manager()
-    f_manager.window.move(650, 0)
     draw_error_log(model)
-
     new_window()
     f_manager = plt.get_current_fig_manager()
-    f_manager.window.move(0, 0)
     draw_2d_decision_boundary(model, X_data, dim_id_1, dim_id_2)
     draw_2d_data(X_data, y_data, dim_id_1, dim_id_2)
 
