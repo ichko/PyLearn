@@ -24,5 +24,5 @@ class LogisticRegression(TrainableModel):
 
     def fit(self, *args):
         predict = super(LogisticRegression, self).fit(*args)
-        self.unthresholded = predict
+        self.predict = predictor
         return lambda inp: 1 if predict(inp) > self.boundary_threshold else 0

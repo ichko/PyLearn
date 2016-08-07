@@ -12,7 +12,8 @@ class TrainableModel:
         self.theta = []
         self.feature_scale = lambda _: 1
         self.reverse_feature_scale = lambda _: 1
-        self.error_log = []
+        self.predict = lambda _: 1
+        self.gradient_log = []
 
     def fit(self, X, y):
         mean, reversed_mean = FeatureScaling.get_mean_normalize(X)
@@ -27,12 +28,13 @@ class TrainableModel:
 
         def predictor(inp):
             return sum(x * t for x, t in zip([1] + list(mean(inp)), theta))
+        self.predict = predictor
 
         return predictor
 
     # Gradient descent
     def train(self, derivative, theta):
-        self.error_log = []
+        self.gradient_log = []
         last_derivative = derivative(theta)
         iteration = self.max_iterations
         current_error = sum(map(abs, last_derivative))
@@ -41,7 +43,7 @@ class TrainableModel:
             last_derivative = derivative(theta)
             current_error = sum(map(abs, last_derivative))
 
-            self.error_log.append(current_error)
+            self.gradient_log.append(current_error)
             iteration -= 1
 
         return theta

@@ -19,7 +19,12 @@ class PolynomialRegression(LinearRegression):
         mapper = identity_map(len(X[0])) if mapper is None else mapper
         X = [row_apply_map(mapper, x_row) for x_row in X]
         predict = super(LinearRegression, self).fit(X, y)
-        return lambda inp: predict(row_apply_map(mapper, inp))
+
+        def predictor(inp):
+            return predict(row_apply_map(mapper, inp))
+        self.predict = predictor
+
+        return predictor
 
 
 class PolynomialLogisticRegression(LogisticRegression):
@@ -29,8 +34,7 @@ class PolynomialLogisticRegression(LogisticRegression):
         X = [row_apply_map(mapper, x_row) for x_row in X]
         super(PolynomialLogisticRegression, self).fit(X, y)
 
-        base_unthresholded = self.unthresholded
-        self.unthresholded = lambda inp: base_unthresholded(
-                             row_apply_map(mapper, inp))
+        base_predict = self.predict
+        self.predict = lambda inp: base_predict(row_apply_map(mapper, inp))
 
-        return lambda inp: 1 if self.unthresholded(inp) > 0 else 0
+        return lambda inp: 1 if self.predict(inp) > 0 else 0
