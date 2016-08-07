@@ -6,8 +6,8 @@ from .trainable_model import TrainableModel
 
 class LinearRegression(TrainableModel):
 
-    def hypothesis(self, X, theta):
-        return X.dot(theta)
+    def hypothesis(self, X, params):
+        return X.dot(params)
 
 
 class LogisticRegression(TrainableModel):
@@ -19,10 +19,11 @@ class LogisticRegression(TrainableModel):
     def sigmoid(self, x):
         return np.vectorize(lambda x: 1 / (1 + exp(-x)))(x)
 
-    def hypothesis(self, X, theta):
-        return self.sigmoid(X.dot(theta))
+    def hypothesis(self, X, params):
+        return self.sigmoid(X.dot(params))
 
     def fit(self, *args):
         predict = super(LogisticRegression, self).fit(*args)
         self.predict = predictor
-        return lambda inp: 1 if predict(inp) > self.boundary_threshold else 0
+        return lambda inp, params=self.params: 1 if predict(
+            inp, params) > self.boundary_threshold else 0

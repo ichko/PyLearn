@@ -20,8 +20,9 @@ class PolynomialRegression(LinearRegression):
         X = [row_apply_map(mapper, x_row) for x_row in X]
         predict = super(LinearRegression, self).fit(X, y)
 
-        def predictor(inp):
-            return predict(row_apply_map(mapper, inp))
+        def predictor(inp, params=self.params):
+            return predict(row_apply_map(mapper, inp), params)
+
         self.predict = predictor
 
         return predictor
@@ -35,6 +36,7 @@ class PolynomialLogisticRegression(LogisticRegression):
         super(PolynomialLogisticRegression, self).fit(X, y)
 
         base_predict = self.predict
-        self.predict = lambda inp: base_predict(row_apply_map(mapper, inp))
+        self.predict = lambda inp, params=self.params: base_predict(
+                row_apply_map(mapper, inp), params)
 
         return lambda inp: 1 if self.predict(inp) > 0 else 0
