@@ -3,6 +3,6 @@
     "command": "py",
     "isShellCommand": true,
     "args": ["data_approximation.py"],
-    // "args": ["visualising_classification.py"],
+    //"args": ["visualising_classification.py"],
     "showOutput": "always"
 }

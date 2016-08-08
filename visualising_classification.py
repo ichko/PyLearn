@@ -10,7 +10,7 @@ model = high_order_model.PolynomialLogisticRegression()
 model.learning_rate = 5
 model.max_iterations = 800
 
-mapper = full_polynomial_mapper(6, 2)
+mapper = full_polynomial_mapper(7, 2)
 predict = model.fit(X_lo, y_lo, mapper)
 
 visualizer.plot_2d_classifier_stats(model, X_lo, y_lo)

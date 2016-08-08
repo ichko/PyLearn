@@ -1,3 +1,5 @@
+import numpy as np
+
 from .preprocess import InputData, InitialParameters, FeatureScaling
 from .cost import rss
 
@@ -8,13 +10,14 @@ def one(*_):
 
 class TrainableModel:
 
-    def __init__(self, log_statiscics=True):
+    def __init__(self, normalize_descent=True, log_statiscics=True):
         self.max_iterations = 1000
         self.learning_rate = 0.5
         self.regularization_term = 0
         self.train_threshold = 0.01
         self.params = []
         self.log_statiscics = log_statiscics
+        self.normalize_descent = normalize_descent
 
         self.feature_scale = one
         self.predict = one
@@ -50,6 +53,10 @@ class TrainableModel:
         while iteration and current_error > self.train_threshold:
             if self.log_statiscics:
                 self.initiate_snapshot(current_error, X, y)
+
+            if self.normalize_descent:
+                last_derivative = last_derivative / np.linalg.norm(
+                    last_derivative)
 
             self.params = self.params - self.learning_rate * last_derivative
             last_derivative = self.derivative(self.params, X, y)
