@@ -2,7 +2,7 @@
     "version": "0.1.0",
     "command": "py",
     "isShellCommand": true,
-    "args": ["data_approximation.py"],
+    "args": ["${file}"],
     //"args": ["visualising_classification.py"],
     "showOutput": "always"
 }
