@@ -1,5 +1,7 @@
 import numpy as np
 
+import random
+
 
 class Math:
 
@@ -15,7 +17,8 @@ class Math:
 
 class Network:
 
-    def __init__(self, sizes):
+    def __init__(self, sizes, learning_rate=1):
+        self.learning_rate = learning_rate
         self.num_layers = len(sizes)
         self.sizes = sizes
         self.biases = [np.array(np.random.randn(1, y))[0] for y in sizes[1:]]
@@ -40,6 +43,32 @@ class Network:
         hypothesis = self.forward(X)
         return sum((y - hypothesis) ** 2) / 2
 
+    def train_network(self, X_data, y_data, max_iter=200, batch_size=10):
+        training_data = [(x, y) for x, y in zip(X_data, y_data)]
+        training_data_len = len(training_data)
+
+        for i in range(max_iter):
+            random.shuffle(training_data)
+            batches = [training_data[k:k + batch_size] for k
+                       in range(0, training_data_len, batch_size)]
+            for batch in batches:
+                b_grad, w_grad = self.batch_gradient(batch)
+                self.biases = [b - self.learning_rate * bg for b, bg
+                               in zip(self.biases, b_grad)]
+                self.weights = [w - self.learning_rate * wg for w, wg
+                                in zip(self.weights, w_grad)]
+
+    def batch_gradient(self, batch):
+        b_grad = [np.zeros(b.shape) for b in self.biases]
+        w_grad = [np.zeros(w.shape) for w in self.weights]
+
+        for x, y in batch:
+            dJdb, dJdW = self.cost_prime(x, y)
+            b_grad = [b + bg for b, bg in zip(b_grad, dJdb)]
+            w_grad = [w + wg for w, wg in zip(w_grad, dJdW)]
+
+        return b_grad, w_grad
+
     def cost_prime(self, x, y):
         x, y = np.array(x), np.array(y)
         dJdb = [np.zeros(b.shape) for b in self.biases]
@@ -57,19 +86,22 @@ class Network:
             dJdW[-l] = np.array([dJdb[-l]]).T.dot(
                 np.array([self.activations[-l - 1]]))
 
-        return dJdW, dJdb
+        return dJdb, dJdW
 
 
+'''
 net = Network([2, 3, 2])
 print('forward:', net.forward([2, 3]))
 
-w_grad, b_grad = net.cost_prime([1, 2], [1, 3])
+b_grad, w_grad = net.cost_prime([1, 2], [1, 3])
 print('dJdW:', w_grad, '\ndJdb:', b_grad)
 
-cost1 = net.cost([1, 2], [1, 2])
-scalar = 3
-net.weights[0] -= scalar * w_grad[0]
-net.weights[1] -= scalar * w_grad[1]
-cost2 = net.cost([1, 2], [1, 2])
+cost1 = net.cost([1, 2], [0.2, 1])
+forward1 = net.forward([1, 2])
+net.train_network([[1, 2], [1, 2], [1, 2]], [[0.2, 1], [0.2, 1], [0.2, 1]])
+forward2 = net.forward([1, 2])
+cost2 = net.cost([1, 2], [0.2, 1])
 
 print(cost1, cost2)
+print(forward1, forward2)
+'''
