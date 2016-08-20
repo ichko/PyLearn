@@ -7,15 +7,16 @@ X_lo, y_lo = data_loader.parse_data('data/logistic_non_linear.txt')
 y_lo = [int(y) for y in y_lo]
 
 model = high_order_model.PolynomialLogisticRegression()
-model.learning_rate = 5
-model.max_iterations = 800
+model.learning_rate = 0.1
+model.max_iterations = 400
 
-mapper = full_polynomial_mapper(7, 2)
+mapper = full_polynomial_mapper(6, 2)
 predict = model.fit(X_lo, y_lo, mapper)
 
 visualizer.plot_2d_classifier_stats(model, X_lo, y_lo)
-exit()
 
+
+exit()
 
 # Linear logistic regression example
 X_lo, y_lo = data_loader.parse_data('data/logistic_linear.txt')

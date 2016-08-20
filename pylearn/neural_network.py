@@ -1,6 +1,7 @@
 import numpy as np
 
 import random
+import sys
 
 
 class Math:
@@ -17,7 +18,7 @@ class Math:
 
 class Network:
 
-    def __init__(self, sizes, learning_rate=1):
+    def __init__(self, sizes, learning_rate=3):
         self.learning_rate = learning_rate
         self.num_layers = len(sizes)
         self.sizes = sizes
@@ -39,11 +40,12 @@ class Network:
 
         return a
 
-    def cost(self, X, y):
-        hypothesis = self.forward(X)
+    def cost(self, x, y):
+        hypothesis = self.forward(x)
         return sum((y - hypothesis) ** 2) / 2
 
-    def train_network(self, X_data, y_data, max_iter=200, batch_size=10):
+    def train_network(self, X_data, y_data, test_data,
+                      max_iter=10, batch_size=310):
         training_data = [(x, y) for x, y in zip(X_data, y_data)]
         training_data_len = len(training_data)
 
@@ -53,10 +55,17 @@ class Network:
                        in range(0, training_data_len, batch_size)]
             for batch in batches:
                 b_grad, w_grad = self.batch_gradient(batch)
-                self.biases = [b - self.learning_rate * bg for b, bg
-                               in zip(self.biases, b_grad)]
-                self.weights = [w - self.learning_rate * wg for w, wg
-                                in zip(self.weights, w_grad)]
+                self.biases = [b - (self.learning_rate / len(batch)) * bg
+                               for b, bg in zip(self.biases, b_grad)]
+                self.weights = [w - (self.learning_rate / len(batch)) * wg 
+                                for w, wg in zip(self.weights, w_grad)]
+            if test_data:
+                print("Epoch {0}: {1} / {2}, cost: {3}".format(
+                    i, self.test_network(test_data[0], test_data[1]),
+                    len(test_data[0]),
+                    self.batch_cost(test_data[0], test_data[1])))
+            else:
+                print("Epoch {0} complete".format(i))
 
     def batch_gradient(self, batch):
         b_grad = [np.zeros(b.shape) for b in self.biases]
@@ -88,6 +97,18 @@ class Network:
 
         return dJdb, dJdW
 
+    def threshold_prediction(self, x):
+        hypothesis = self.forward(x)
+        winner = max(hypothesis)
+        return [1 if h == winner else 0 for h in hypothesis]
+
+    def test_network(self, X_test, y_test):
+        return sum(int(y == self.threshold_prediction(x))
+                   for x, y in zip(X_test, y_test))
+
+    def batch_cost(self, X_data, y_data):
+        return sum(self.cost(x, y) for x, y in zip(X_data, y_data))
+
 
 '''
 net = Network([2, 3, 2])
@@ -96,11 +117,11 @@ print('forward:', net.forward([2, 3]))
 b_grad, w_grad = net.cost_prime([1, 2], [1, 3])
 print('dJdW:', w_grad, '\ndJdb:', b_grad)
 
-cost1 = net.cost([1, 2], [0.2, 1])
+cost1 = net.cost([1, 2], [0, 1])
 forward1 = net.forward([1, 2])
-net.train_network([[1, 2], [1, 2], [1, 2]], [[0.2, 1], [0.2, 1], [0.2, 1]])
+net.train_network([[1, 2], [1, 2], [1, 2]], [[0, 1], [0, 1], [0, 1]])
 forward2 = net.forward([1, 2])
-cost2 = net.cost([1, 2], [0.2, 1])
+cost2 = net.cost([1, 2], [0, 1])
 
 print(cost1, cost2)
 print(forward1, forward2)

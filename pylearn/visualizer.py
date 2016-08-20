@@ -41,7 +41,7 @@ def draw_1d_predictor(model, X_data, dim_id=0):
 
 
 def plot_1d_approximator_stats(model, X_data, y_data, dim_id=0):
-    draw_1d_approximator_params_log(model, X_data, dim_id)
+    # draw_1d_approximator_params_log(model, X_data, dim_id)
     draw_1d_predictor(model, X_data, dim_id)
     draw_1d_data(X_data, y_data, dim_id)
     new_window()
