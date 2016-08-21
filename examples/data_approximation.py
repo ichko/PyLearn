@@ -13,3 +13,4 @@ mapper = full_polynomial_mapper(7, 2)
 predict = model.fit(X, y, mapper)
 
 visualizer.plot_1d_approximator_stats(model, X, y)
+print('Done')

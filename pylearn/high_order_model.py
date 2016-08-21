@@ -1,9 +1,6 @@
 from .linear_model import LinearRegression, LogisticRegression
 
 
-def power_map(powers):
-    return (lambda data: data ** power for power in powers)
-
 
 def identity_map(size):
     return [lambda x, id: x[id] for _ in range(size)]

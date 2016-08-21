@@ -1,8 +1,14 @@
 {
     "version": "0.1.0",
-    "command": "py",
+    "command": " ",
     "isShellCommand": true,
-    "args": ["${file}"],
-    //"args": ["visualising_classification.py"],
-    "showOutput": "always"
+    "showOutput": "always",
+    "tasks": [
+        {
+            "isBuildCommand": true,
+            "taskName": "Build",
+            "suppressTaskName": true,
+            "args": ["py setup.py install > nul && py ${file}"]
+        }
+    ]
 }
