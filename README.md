@@ -13,7 +13,7 @@ Python library implementing machine learning algorithms.
  - Module for visualizing the data (nice to have)
  - Optimization of arbitrary model*
 
-##Optimization of arbitrary model
+##Optimization of arbitrary model :snail:
  - Input
    - model (instance of class with the method predict())
    - example input data
