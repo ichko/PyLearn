@@ -44,3 +44,8 @@ class InputData:
     @classmethod
     def normalize(cls, X, y):
         return np.array(cls.add_constant_term(X)), np.array(y)
+
+    @staticmethod
+    def image_matrix_normalizer(images, labels, labels_list, pixel_scalar=50):
+        return ([[x / pixel_scalar for x in x_row] for x_row in images],
+                [[1 if y == i else 0 for i in labels_list] for y in labels])

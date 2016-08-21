@@ -74,7 +74,8 @@ def plot_2d_classifier_stats(model, X_data, y_data, dim_id_1=0, dim_id_2=1,):
     show_plots()
 
 
-def draw_2d_classifier_data(X_data, y_data, dim_id_1=0, dim_id_2=1, point_size=50):
+def draw_2d_classifier_data(X_data, y_data, dim_id_1=0,
+                            dim_id_2=1, point_size=50):
     colormap = ['cyan', 'red']
     for i, row in enumerate(X_data):
         plt.scatter(row[dim_id_1], row[dim_id_2],

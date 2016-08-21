@@ -4,11 +4,11 @@ from .preprocess import InputData, InitialParameters, FeatureScaling
 from .cost import rss
 
 
-def one(*_):
+def _one(*_):
     return 1
 
 
-class TrainableModel:
+class RegressionModel:
 
     def __init__(self, normalize_descent=True, log_statiscics=True):
         self.max_iterations = 1000
@@ -19,10 +19,10 @@ class TrainableModel:
         self.log_statiscics = log_statiscics
         self.normalize_descent = normalize_descent
 
-        self.feature_scale = one
-        self.predict = one
-        self.cost = one
-        self.derivative = one
+        self.feature_scale = _one
+        self.predict = _one
+        self.cost = _one
+        self.derivative = _one
 
         self.gradient_log = []
         self.cost_log = []
@@ -33,9 +33,9 @@ class TrainableModel:
         X, y = InputData.normalize(self.feature_scale(X), y)
 
         self.cost, self.derivative = rss(
-            self.hypothesis, self.regularization_term)
+            self._hypothesis, self.regularization_term)
         self.params = InitialParameters.random(len(X[0]))
-        self.train(X, y)
+        self._train(X, y)
 
         def predictor(inp, params=self.params):
             return sum(x * t for x, t in zip(
@@ -46,7 +46,7 @@ class TrainableModel:
         return predictor
 
     # Gradient descent
-    def train(self, X, y):
+    def _train(self, X, y):
         last_derivative = self.derivative(self.params, X, y)
         iteration = self.max_iterations
         current_error = sum(map(abs, last_derivative))

@@ -1,26 +1,24 @@
 from math import exp
 import numpy as np
 
-from .trainable_model import TrainableModel
+from .regression_model import RegressionModel
+from .math import sigmoid
 
 
-class LinearRegression(TrainableModel):
+class LinearRegression(RegressionModel):
 
-    def hypothesis(self, X, params):
+    def _hypothesis(self, X, params):
         return X.dot(params)
 
 
-class LogisticRegression(TrainableModel):
+class LogisticRegression(RegressionModel):
 
     def __init__(self, *args):
         super().__init__(*args)
         self.boundary_threshold = 0
 
-    def sigmoid(self, x):
-        return np.vectorize(lambda x: 1 / (1 + exp(-x)))(x)
-
-    def hypothesis(self, X, params):
-        return self.sigmoid(X.dot(params))
+    def _hypothesis(self, X, params):
+        return sigmoid(X.dot(params))
 
     def fit(self, *args):
         predict = super(LogisticRegression, self).fit(*args)

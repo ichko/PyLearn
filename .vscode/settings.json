@@ -7,6 +7,9 @@
         "LICENSE": true,
         ".git*": true,
         "*/__*__": true,
-        "__*__": true
+        "__*__": true,
+        "dist": true,
+        "*.egg-info": true,
+        "build": true
     }
 }
