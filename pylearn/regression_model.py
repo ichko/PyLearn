@@ -1,7 +1,13 @@
+"""Module containing implementation of optimization (minimization of the error)
+of model using gradient descent.
+
+"""
+
+
 import numpy as np
 
 from .preprocess import InputData, InitialParameters, FeatureScaling
-from .cost import rss
+from .cost import sum_squares
 
 
 def _one(*_):
@@ -10,13 +16,14 @@ def _one(*_):
 
 class RegressionModel:
 
-    def __init__(self, normalize_descent=True, log_statiscics=True):
+    def __init__(self, normalize_descent=True, log_statistics=True):
+        """Setting initial values of the parameters of the model."""
         self.max_iterations = 1000
         self.learning_rate = 0.5
         self.regularization_term = 0
         self.train_threshold = 0.01
         self.params = []
-        self.log_statiscics = log_statiscics
+        self.log_statistics = log_statistics
         self.normalize_descent = normalize_descent
 
         self.feature_scale = _one
@@ -29,10 +36,14 @@ class RegressionModel:
         self.params_log = []
 
     def fit(self, X, y):
+        """Method normalizing the input data and executing gradient descent
+        over the cost function of the parameters of the model.
+
+        """
         self.feature_scale, _ = FeatureScaling.get_mean_normalize(X)
         X, y = InputData.normalize(self.feature_scale(X), y)
 
-        self.cost, self.derivative = rss(
+        self.cost, self.derivative = sum_squares(
             self._hypothesis, self.regularization_term)
         self.params = InitialParameters.random(len(X[0]))
         self._train(X, y)
@@ -45,13 +56,19 @@ class RegressionModel:
 
         return predictor
 
-    # Gradient descent
     def _train(self, X, y):
+        """Implementation of gradient descent over the input data with respect
+        to the derivative of the cost function.
+        The cost is defined as the sum of the squares of the difference
+        between the results generated with the hypothesis function
+        and the actual data.
+
+        """
         last_derivative = self.derivative(self.params, X, y)
         iteration = self.max_iterations
         current_error = sum(map(abs, last_derivative))
         while iteration and current_error > self.train_threshold:
-            if self.log_statiscics:
+            if self.log_statistics:
                 self.initiate_snapshot(current_error, X, y)
 
             if self.normalize_descent:
@@ -64,6 +81,10 @@ class RegressionModel:
             iteration -= 1
 
     def initiate_snapshot(self, current_error, X, y):
+        """Method collecting statistical data during the execution
+        of gradient descent.
+
+        """
         self.gradient_log.append(current_error)
         self.cost_log.append(self.cost(self.params, X, y))
         self.params_log.append(self.params)

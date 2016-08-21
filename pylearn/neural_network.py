@@ -1,3 +1,9 @@
+"""Module containing implementation of neural network multiclass classifier
+with sigmoid neurons using batch gradient descent and backpropagation.
+
+"""
+
+
 import random
 
 import numpy as np
@@ -8,6 +14,14 @@ from .math import sigmoid, sigmoid_prime
 class NeuralNetwork:
 
     def __init__(self, sizes, learning_rate=2):
+        """Initializing the parameters of the model.
+        Setting initial random values of the weights and biases of the neural
+        network.
+
+        Play with the max_iteration, batch_size and learning_rate values
+        for optimal performance and optimal fit.
+
+        """
         self.learning_rate = learning_rate
         self.num_layers = len(sizes)
         self.sizes = sizes
@@ -22,10 +36,20 @@ class NeuralNetwork:
         self.batch_size = 10
 
     def cost(self, x, y):
+        """Cost is computed as the differences of squared which are
+        then summed between the hypothesised data and the actual data.
+
+        """
         hypothesis = self._forward(x)
         return sum((y - hypothesis) ** 2) / 2
 
     def fit(self, X_data, y_data):
+        """Method initializing the process of batch gradient descent.
+        The data is split on even number of sets batches and then
+        gradient descent is performed over those batches.
+        This is dont multiple times. Ideally until convergence.
+
+        """
         training_data = [(x, y) for x, y in zip(X_data, y_data)]
         training_data_len = len(training_data)
 
@@ -42,18 +66,32 @@ class NeuralNetwork:
             self.epoch_end_notifier(self, i)
 
     def predict(self, x):
+        """Feed forward the network with the x vector and predict the
+        maximal value from the output vector.
+
+        """
         hypothesis = self._forward(x)
         winner = max(hypothesis)
         return [1 if h == winner else 0 for h in hypothesis]
 
     def test_network(self, X_test, y_test):
+        """Method returning the number of correct guesses from the test data.
+
+        """
         return sum(int(y == self.predict(x))
                    for x, y in zip(X_test, y_test))
 
     def batch_cost(self, X_data, y_data):
+        """Method returning the sum of the cost of the model over the test data.
+
+        """
         return sum(self.cost(x, y) for x, y in zip(X_data, y_data))
 
     def _forward(self, a):
+        """Calculating the output of the network based on the current
+        parameters and the input `a`.
+
+        """
         a = np.array(a)
         self.weighted_layer, self.activations = [], [a]
         for w, b in zip(self.weights, self.biases):
@@ -65,6 +103,7 @@ class NeuralNetwork:
         return a
 
     def _batch_gradient(self, batch):
+        """Method summing the gradient for each value in the batch."""
         b_grad = [np.zeros(b.shape) for b in self.biases]
         w_grad = [np.zeros(w.shape) for w in self.weights]
 
@@ -76,6 +115,11 @@ class NeuralNetwork:
         return b_grad, w_grad
 
     def _cost_prime(self, x, y):
+        """Running the backpropagation algorithm for single x, y input.
+        The result is a tuple containing the gradient for the weights
+        and the gradient for the biases.
+
+        """
         x, y = np.array(x), np.array(y)
         dJdb = [np.zeros(b.shape) for b in self.biases]
         dJdW = [np.zeros(w.shape) for w in self.weights]

@@ -1,6 +1,7 @@
-from mnist import MNIST
 import time
 import sys
+
+from mnist import MNIST
 
 from pylearn.neural_network import NeuralNetwork
 from pylearn.preprocess import InputData

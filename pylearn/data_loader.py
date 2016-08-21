@@ -1,4 +1,14 @@
+"""Module for loading data from files into numpy matrices.
+
+"""
+
+
 def pull_data_matrix(file_path, col_delimiter):
+    """Function for loading data from file into matrix.
+    New lines corresponds to new rows and the delimiter for columns
+    is given with col_delimiter (string).
+
+    """
     with open(file_path) as f:
         lines = f.readlines()
         return [[float(item.strip()) for item in line.split(col_delimiter)]
@@ -6,5 +16,9 @@ def pull_data_matrix(file_path, col_delimiter):
 
 
 def parse_data(file_path, col_delimiter=','):
+    """Function calling pull_data_matrix and returning tuple of
+    the matrix without the last column and the last column.
+
+    """
     matrix = pull_data_matrix(file_path, col_delimiter)
     return [row[:-1] for row in matrix], [row[-1] for row in matrix]
