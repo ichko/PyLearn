@@ -45,7 +45,7 @@ class Network:
         return sum((y - hypothesis) ** 2) / 2
 
     def train_network(self, X_data, y_data, test_data,
-                      max_iter=10, batch_size=310):
+                      max_iter=15, batch_size=10):
         training_data = [(x, y) for x, y in zip(X_data, y_data)]
         training_data_len = len(training_data)
 
