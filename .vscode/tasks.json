@@ -6,9 +6,15 @@
     "tasks": [
         {
             "isBuildCommand": true,
-            "taskName": "Build",
+            "taskName": "Build and run",
             "suppressTaskName": true,
             "args": ["py setup.py install > nul && py ${file}"]
+        },
+        {
+            "isTestCommand": true,
+            "taskName": "Test",
+            "suppressTaskName": true,
+            "args": ["py setup.py test"]
         }
     ]
 }

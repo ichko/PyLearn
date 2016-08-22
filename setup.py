@@ -10,5 +10,6 @@ setup(
         description="Machine Learning Lib",
         license="PSF",
         keywords="Ml machine learning",
-        url="https://github.com/ichko/PyLearn"
+        url="https://github.com/ichko/PyLearn",
+        test_suite="tests"
     )
