@@ -87,7 +87,9 @@
     "assertListsClose",
     "assertEqual",
     "assertListEqual",
-    "assertSequenceEqual"
+    "assertSequenceEqual",
+    "assertListsAlmostEqual",
+    "assertAlmostEqual"
   ],
   "mistakeTypeToStatus": {
     "Spelling": "Error",

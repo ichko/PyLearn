@@ -27,9 +27,9 @@ class TestCost(TestCase):
         error_actual = error(params, fake_X_data, fake_y_data)
         derivative_actual = derivative(params, fake_X_data, fake_y_data)
 
-        self.assertClose(2143.33, error_actual)
-        self.assertListsClose([304.33333333, 273.66666667, 293],
-                              derivative_actual)
+        self.assertAlmostEqual(2143.33, error_actual, 2)
+        self.assertListsAlmostEqual([304.33333333, 273.66666667, 293],
+                                    derivative_actual)
 
     def test_sum_squares(self):
         error, derivative = cost.sum_squares(fake_cost_hypothesis, 0)
@@ -40,8 +40,8 @@ class TestCost(TestCase):
         derivative_actual = derivative(params, fake_X_data, fake_y_data)
 
         self.assertEqual(2135, error_actual)
-        self.assertListsClose([304.33333333, 271.66666667, 290.33333333],
-                              derivative_actual)
+        self.assertListsAlmostEqual([304.33333333, 271.66666667, 290.33333333],
+                                    derivative_actual)
 
     def test_sum_squares_derivative(self):
         derivative = cost.sum_squares_derivative(fake_cost_hypothesis, 0)
@@ -54,12 +54,12 @@ class TestCost(TestCase):
         actual_2 = derivative(params_2, fake_X_data, fake_y_data)
         actual_3 = derivative(params_3, fake_X_data, fake_y_data)
 
-        self.assertListsClose([51.33333333, 46.66666667, 49.66666667],
-                              actual_1)
-        self.assertListsClose([263.33333333, 234.66666667, 251.33333333],
-                              actual_2)
-        self.assertListsClose([392.66666667, 360.33333333, 383.66666667],
-                              actual_3)
+        self.assertListsAlmostEqual([51.33333333, 46.66666667, 49.66666667],
+                                    actual_1)
+        self.assertListsAlmostEqual([263.33333333, 234.66666667, 251.33333333],
+                                    actual_2)
+        self.assertListsAlmostEqual([392.66666667, 360.33333333, 383.66666667],
+                                    actual_3)
 
     def test_sum_squares_cost(self):
         error = cost.sum_squares_cost(fake_cost_hypothesis, 0)
