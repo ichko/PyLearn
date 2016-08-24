@@ -34,6 +34,7 @@ class RegressionModel:
         self.gradient_log = []
         self.cost_log = []
         self.params_log = []
+        self.initial_params_function = InitialParameters.random
 
     def fit(self, X, y):
         """Method normalizing the input data and executing gradient descent
@@ -45,7 +46,7 @@ class RegressionModel:
 
         self.cost, self.derivative = sum_squares(
             self._hypothesis, self.regularization_term)
-        self.params = InitialParameters.random(len(X[0]))
+        self.params = self.initial_params_function(len(X[0]))
         self._train(X, y)
 
         def predictor(inp, params=self.params):

@@ -9,11 +9,17 @@ import random
 import numpy as np
 
 from .math import sigmoid, sigmoid_prime
+from .preprocess import InitialParameters
 
 
 class NeuralNetwork:
+    """NeuralNetwork class implements sigmoid neurons and `learns` the parameters
+    fitting the data with the backpropagation algorithm.
 
-    def __init__(self, sizes, learning_rate=2):
+    """
+
+    def __init__(self, sizes, learning_rate=2,
+                 initial_parameters=InitialParameters.random_matrix):
         """Initializing the parameters of the model.
         Setting initial random values of the weights and biases of the neural
         network.
@@ -25,8 +31,8 @@ class NeuralNetwork:
         self.learning_rate = learning_rate
         self.num_layers = len(sizes)
         self.sizes = sizes
-        self.biases = [np.array(np.random.randn(1, y))[0] for y in sizes[1:]]
-        self.weights = [np.random.randn(y, x)
+        self.biases = [initial_parameters(1, y)[0] for y in sizes[1:]]
+        self.weights = [initial_parameters(y, x)
                         for x, y in zip(sizes[:-1], sizes[1:])]
 
         self.weighted_layer = []
@@ -34,6 +40,7 @@ class NeuralNetwork:
         self.epoch_end_notifier = lambda _, __: 1
         self.max_iteration = 15
         self.batch_size = 10
+        self.batch_preprocess = random.shuffle
 
     def cost(self, x, y):
         """Cost is computed as the differences of squared which are
@@ -54,7 +61,7 @@ class NeuralNetwork:
         training_data_len = len(training_data)
 
         for i in range(self.max_iteration):
-            random.shuffle(training_data)
+            self.batch_preprocess(training_data)
             batches = [training_data[k:k + self.batch_size] for k
                        in range(0, training_data_len, self.batch_size)]
             for batch in batches:
@@ -64,6 +71,8 @@ class NeuralNetwork:
                 self.weights = [w - (self.learning_rate / len(batch)) * wg
                                 for w, wg in zip(self.weights, w_grad)]
             self.epoch_end_notifier(self, i)
+
+        return self.predict
 
     def predict(self, x):
         """Feed forward the network with the x vector and predict the

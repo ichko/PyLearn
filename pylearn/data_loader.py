@@ -3,13 +3,17 @@
 """
 
 
+def open_file(file_path):
+    return open(file_path)
+
+
 def pull_data_matrix(file_path, col_delimiter):
     """Function for loading data from file into matrix.
     New lines corresponds to new rows and the delimiter for columns
     is given with col_delimiter (string).
 
     """
-    with open(file_path) as f:
+    with open_file(file_path) as f:
         lines = f.readlines()
         return [[float(item.strip()) for item in line.split(col_delimiter)]
                 for line in lines]

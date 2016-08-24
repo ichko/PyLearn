@@ -40,17 +40,18 @@ def degree_lambda_mapper(power, space_size, data=[]):
         yield lambda x, _: np.prod([x[i] ** degs[i] for i in range(len(x))])
 
 
-def degree_mapper(power, space_size, data=[]):
-    """Function returning matrix with rows containing all the degrees of
-    that vector with length of space_size can be mapped to.
+# def degree_mapper(power, space_size, data=[]):
+#     """Function returning matrix with rows containing all the degrees of
+#     that vector with length of space_size can be mapped to.
 
-    Example:
-        input: power = 2, space_size = 2
-        output: [[2, 0], [0, 2], [1, 1]]
+#     Example:
+#         input: power = 2, space_size = 2
+#         output: [[2, 0], [0, 2], [1, 1]]
 
-    """
-    if(space_size > 1):
-        for deg in range(power + 1):
-            yield from degree_mapper(power - deg, space_size - 1, data + [deg])
-    else:
-        yield data + [power]
+#     """
+#     if(space_size > 1):
+#         for deg in range(power + 1):
+#             yield from degree_mapper(power - deg, space_size - 1,
+#                                      data + [deg])
+#     else:
+#         yield data + [power]

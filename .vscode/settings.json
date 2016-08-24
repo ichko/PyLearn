@@ -10,6 +10,9 @@
         "__*__": true,
         "dist": true,
         "*.egg-info": true,
-        "build": true
+        "build": true,
+        ".coverage": true,
+        "htmlcov": true,
+        "*/.coverage": true
     }
 }

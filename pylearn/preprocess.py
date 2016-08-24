@@ -14,6 +14,16 @@ class InitialParameters:
     """
 
     @staticmethod
+    def random_matrix(rows, cols):
+        """Returns numpy matrix with random values between 0 and 1."""
+        return np.random.randn(rows, cols)
+
+    @staticmethod
+    def ones_matrix(rows, cols):
+        """Returns numpy matrix with ones."""
+        return np.ones([rows, cols])
+
+    @staticmethod
     def ones(size):
         """Returns numpy vector with ones."""
         return np.array([1] * size)
@@ -72,5 +82,5 @@ class InputData:
         mapping the output values to binary vectors.
 
         """
-        return ([[x / pixel_scalar for x in x_row] for x_row in images],
+        return ([[px / pixel_scalar for px in image] for image in images],
                 [[1 if y == i else 0 for i in labels_list] for y in labels])
