@@ -22,7 +22,7 @@ print("{0} / {1}, Cost: {2}".format(
         len(test_images_wrap),
         net.batch_cost(test_images_wrap, test_labels_wrap)))
 
-image = image_to_vector("C:/Users/Np/Desktop/7.jpg")
+image = image_to_vector("data/experimental_images/0.jpg")
 prediction = net.predict(image)
 
 print(prediction)
