@@ -9,9 +9,7 @@
             "pythonPath": "py",
             "program": "${file}",
             "debugOptions": [
-                "WaitOnAbnormalExit",
-                "WaitOnNormalExit",
-                "RedirectOutput"
+                
             ]
         }
     ]

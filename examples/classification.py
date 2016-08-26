@@ -1,5 +1,5 @@
 from pylearn import high_order_model, linear_model, visualizer, data_loader
-from pylearn.space_transform import degree_mapper, full_polynomial_mapper
+from pylearn.space_transform import full_polynomial_mapper
 
 
 # Polynomial logistic regression example

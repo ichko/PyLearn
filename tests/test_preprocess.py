@@ -7,6 +7,11 @@ from pylearn.preprocess import InitialParameters, FeatureScaling, InputData
 
 class TestPreprocessing(BaseTest):
 
+    def test_initial_parameters_random(self):
+        actual_vector = InitialParameters.random(3, 2, 4)
+
+        self.assertTrue(all(a >= 2 and a <= 4 for a in actual_vector))
+
     def test_input_data(self):
         actual_1 = InputData.add_constant_term([[2, 3], [4, 5]])
         actual_2 = InputData.image_matrix_normalizer([[2, 3], [4, 5]], [1, 0],

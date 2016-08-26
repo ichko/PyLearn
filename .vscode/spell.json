@@ -107,7 +107,10 @@
     "TestMath",
     "TestPreprocessing",
     "list list",
-    "px"
+    "px",
+    "json",
+    "asarray",
+    "getdata"
   ],
   "mistakeTypeToStatus": {
     "Spelling": "Error",

@@ -15,7 +15,10 @@ class InitialParameters:
 
     @staticmethod
     def random_matrix(rows, cols):
-        """Returns numpy matrix with random values between 0 and 1."""
+        """Returns numpy matrix with values from the
+        `standard normal` distribution.
+
+        """
         return np.random.randn(rows, cols)
 
     @staticmethod

@@ -117,9 +117,9 @@ class NeuralNetwork:
         w_grad = [np.zeros(w.shape) for w in self.weights]
 
         for x, y in batch:
-            dJdb, dJdW = self._cost_prime(x, y)
-            b_grad = [b + bg for b, bg in zip(b_grad, dJdb)]
-            w_grad = [w + wg for w, wg in zip(w_grad, dJdW)]
+            single_b_grad, single_w_grad = self._cost_prime(x, y)
+            b_grad = [b + bg for b, bg in zip(b_grad, single_b_grad)]
+            w_grad = [w + wg for w, wg in zip(w_grad, single_w_grad)]
 
         return b_grad, w_grad
 
@@ -130,19 +130,19 @@ class NeuralNetwork:
 
         """
         x, y = np.array(x), np.array(y)
-        dJdb = [np.zeros(b.shape) for b in self.biases]
-        dJdW = [np.zeros(w.shape) for w in self.weights]
+        bias_gradient = [np.zeros(b.shape) for b in self.biases]
+        weights_gradient = [np.zeros(w.shape) for w in self.weights]
         hypothesis = self._forward(x)
 
-        dJdb[-1] = (hypothesis - y) * \
+        bias_gradient[-1] = (hypothesis - y) * \
             sigmoid_prime(self.weighted_layer[-1])
-        dJdW[-1] = np.array([dJdb[-1]]).T.dot(
+        weights_gradient[-1] = np.array([bias_gradient[-1]]).T.dot(
             np.array([self.activations[-2]]))
 
         for l in range(2, self.num_layers):
-            dJdb[-l] = self.weights[-l + 1].T.dot(dJdb[-l + 1]) * \
-                sigmoid_prime(self.weighted_layer[-l])
-            dJdW[-l] = np.array([dJdb[-l]]).T.dot(
+            bias_gradient[-l] = self.weights[-l + 1].T.dot(
+                bias_gradient[-l + 1]) * sigmoid_prime(self.weighted_layer[-l])
+            weights_gradient[-l] = np.array([bias_gradient[-l]]).T.dot(
                 np.array([self.activations[-l - 1]]))
 
-        return dJdb, dJdW
+        return bias_gradient, weights_gradient

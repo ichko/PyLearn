@@ -54,6 +54,31 @@ class TestNeuralNetwork(BaseTest):
             [0, 0, 1, 0],
         ]
 
+    def test_network_num_hits(self):
+        predictor = self.net_4d.fit(self.fake_4d_X_data,
+                                    self.fake_4d_y_data)
+
+        actual = self.net_4d.test_network([
+            [1, 2, 3, 4],
+            [-1, -2, -3, -4]
+        ], [
+            [1, 0, 0, 0],
+            [0, 0, 1, 0]
+        ])
+
+        self.assertAlmostEqual(2, actual)
+
+    def test_network_cost(self):
+        predictor = self.net_4d.fit(self.fake_4d_X_data,
+                                    self.fake_4d_y_data)
+
+        actual_cost_1 = self.net_4d.batch_cost([[1, 2, 3, 4]], [[1, 0, 0, 0]])
+        actual_cost_2 = self.net_4d.batch_cost([[-1, -2, -3, -4]],
+                                               [[0, 0, 1, 0]])
+
+        self.assertAlmostEqual(0, actual_cost_1, 2)
+        self.assertAlmostEqual(0, actual_cost_2, 2)
+
     def test_complex_network_fit(self):
         predictor = self.net_4d.fit(self.fake_4d_X_data,
                                     self.fake_4d_y_data)

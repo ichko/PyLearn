@@ -16,6 +16,12 @@ class TestHighOrderModel(BaseTest):
         self.mapper_3d = space_transform.full_polynomial_mapper(3, 6)
         self.mapper_4d = space_transform.full_polynomial_mapper(4, 6)
 
+    def test_identity_map(self):
+        mapper = high_order_model._identity_map(3)
+        actual = high_order_model._row_apply_map(mapper, [1, 2, 3])
+
+        self.assertEqual([1, 2, 3], actual)
+
     def test_complex_polynomial_logistic_fit(self):
         predictor = self.logistic_model.fit(self.fake_X_data_complex,
                                             self.fake_y_binary_data,

@@ -11,12 +11,6 @@ mndata = MNIST('.\data\\numbers')
 mndata.load_training()
 mndata.load_testing()
 
-mndata.train_labels = mndata.train_labels[0:1000]
-mndata.train_images = mndata.train_images[0:1000]
-
-mndata.test_labels = mndata.test_labels[0:50]
-mndata.test_images = mndata.test_images[0:50]
-
 test_images_wrap, test_labels_wrap = InputData.image_matrix_normalizer(
     mndata.test_images, mndata.test_labels, range(10))
 train_images_wrap, train_labels_wrap = InputData.image_matrix_normalizer(
