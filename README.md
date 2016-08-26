@@ -24,3 +24,7 @@ Python library implementing machine learning algorithms.
 ##3rd party modules
  - Numpy
  - Matplotlib
+
+##Reference
+ - [Neural networks](http://neuralnetworksanddeeplearning.com/)
+ - [Machine learning](https://www.coursera.org/learn/machine-learning)
