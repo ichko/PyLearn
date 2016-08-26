@@ -80,7 +80,7 @@ class InputData:
         return np.array(cls.add_constant_term(X)), np.array(y)
 
     @staticmethod
-    def image_matrix_normalizer(images, labels, labels_list, pixel_scalar=50):
+    def image_matrix_normalizer(images, labels, labels_list, pixel_scalar=255):
         """Method dividing the pixel values of the image by a constant term and
         mapping the output values to binary vectors.
 

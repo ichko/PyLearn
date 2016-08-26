@@ -37,9 +37,9 @@ def notifier(net, epoch_id):
 
 start_time = time.time()
 
-net = NeuralNetwork([784, 80, 10], 3)
+net = NeuralNetwork([784, 60, 10], 15)
 net.batch_size = 10
-net.max_iterations = 30
+net.max_iteration = 30
 net.epoch_end_notifier = notifier
 
 net.fit(train_images_wrap, train_labels_wrap)

@@ -23,4 +23,7 @@ print("{0} / {1}, Cost: {2}".format(
         net.batch_cost(test_images_wrap, test_labels_wrap)))
 
 image = image_to_vector("C:/Users/Np/Desktop/7.jpg")
-print(net.predict(image))
+prediction = net.predict(image)
+
+print(prediction)
+print(sum(i if p == 1 else 0 for i, p in enumerate(prediction)))
