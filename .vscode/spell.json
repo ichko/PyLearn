@@ -110,7 +110,10 @@
     "px",
     "json",
     "asarray",
-    "getdata"
+    "getdata",
+    "image image",
+    "imshow",
+    "stdout"
   ],
   "mistakeTypeToStatus": {
     "Spelling": "Error",
