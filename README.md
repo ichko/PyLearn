@@ -3,7 +3,7 @@ Python library implementing machine learning algorithms.
 
 ##Content
  - Linear regression
- - logistics regression
+ - Logistics regression
  - Polynomial regression
  - Polynomial logistics regression
  - Neural network
