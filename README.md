@@ -1,7 +1,7 @@
-#PyLearn - Machine Learning Library
+# PyLearn - Machine Learning Library
 Python library implementing machine learning algorithms.
 
-##Content
+## Content
  - Linear regression
  - Logistics regression
  - Polynomial regression
@@ -11,17 +11,17 @@ Python library implementing machine learning algorithms.
  - Module for loading data
  - Module for visualizing data
 
-##Examples
+## Examples
  - Curve fitting
  - Classification
  - Digit recognition
  - Neural network exporter
  - Image preprocessing
 
-##Dependencies
+## Dependencies
  - Numpy
  - Matplotlib
 
-##Reference
+## Reference
  - [Neural networks](http://neuralnetworksanddeeplearning.com/)
  - [Machine learning](https://www.coursera.org/learn/machine-learning)
