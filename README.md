@@ -2,9 +2,9 @@
 Python library implementing machine learning algorithms.
 
 ## Usage
- > sudo python3 setup.py install
- > python3 setup.py test (or > python3 -m unittest discover)
- > python3 examples/${file}
+ - sudo python3 setup.py install
+ - python3 setup.py test (or > python3 -m unittest discover)
+ - python3 examples/${file}
 
 ## Content
  - Linear regression
