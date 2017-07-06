@@ -1,6 +1,11 @@
 # PyLearn - Machine Learning Library
 Python library implementing machine learning algorithms.
 
+## Useage
+ - sudo python3.5 setup.py install
+ - python3.5 setup.py test
+ - python3.5 examples/${file}
+
 ## Content
  - Linear regression
  - Logistics regression
