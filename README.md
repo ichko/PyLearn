@@ -1,10 +1,10 @@
 # PyLearn - Machine Learning Library
 Python library implementing machine learning algorithms.
 
-## Useage
- - > sudo python3 setup.py install
- - > python3 setup.py test (or > python3 -m unittest discover)
- - > python3 examples/${file}
+## Usage
+ > sudo python3 setup.py install
+ > python3 setup.py test (or > python3 -m unittest discover)
+ > python3 examples/${file}
 
 ## Content
  - Linear regression
